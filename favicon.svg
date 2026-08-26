@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path fill="#9e382b" d="M16 4.3h32L64 32 48 59.7H16L0 32Z"/>
+  <circle cx="32" cy="32" r="19" fill="none" stroke="#fff8ee" stroke-opacity=".76" stroke-width="2"/>
+  <text x="32" y="42" fill="#fff8ee" font-family="serif" font-size="28" text-anchor="middle">六</text>
+</svg>
