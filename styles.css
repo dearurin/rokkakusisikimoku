@@ -475,16 +475,17 @@ mark { padding: 0 0.08em; background: color-mix(in srgb, var(--gold) 32%, transp
 .empty-state h3 { margin: 16px 0 4px; font-family: var(--serif); font-size: 24px; }
 .empty-state p { margin: 0 0 24px; color: var(--ink-soft); }
 
-.epilogue-section { position: relative; max-width: none; overflow: hidden; background: var(--vermilion-deep); color: #fff8f1; }
+.epilogue-section { position: relative; max-width: none; overflow: hidden; border-block: 1px solid var(--line); background: var(--paper); color: var(--ink); }
 .epilogue-section > .section-heading, .epilogue-section > .epilogue-content { position: relative; z-index: 2; max-width: 980px; margin-inline: auto; }
 .section-heading-light > p:last-child { color: rgba(255, 248, 241, 0.7); }
-.epilogue-section .section-kicker { color: #e6bd78; }
-.epilogue-mark { position: absolute; top: 44%; right: 2vw; color: rgba(255, 255, 255, 0.045); font-family: var(--serif); font-size: min(47vw, 570px); line-height: 0.6; transform: translateY(-50%); }
+.epilogue-section .section-heading-light > p:last-child { color: var(--ink-soft); }
+.epilogue-section .section-kicker { color: var(--vermilion); }
+.epilogue-mark { position: absolute; top: 44%; right: 2vw; color: color-mix(in srgb, var(--ink) 4%, transparent); font-family: var(--serif); font-size: min(47vw, 570px); line-height: 0.6; transform: translateY(-50%); }
 .epilogue-content { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 54px; }
-.epilogue-original { padding: 30px; border: 1px solid rgba(255, 255, 255, 0.22); color: rgba(255, 248, 241, 0.72); font-family: var(--serif); font-size: 14px; line-height: 2.1; }
-.epilogue-translation h3 { margin: 0 0 13px; color: #e6bd78; font-family: var(--serif); font-size: 15px; }
+.epilogue-original { padding: 30px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-soft); font-family: var(--serif); font-size: 14px; line-height: 2.1; }
+.epilogue-translation h3 { margin: 0 0 13px; color: var(--vermilion); font-family: var(--serif); font-size: 15px; }
 .epilogue-translation > p { margin: 0; font-family: var(--serif); font-size: 18px; line-height: 2.15; }
-.epilogue-explanation { margin-top: 24px !important; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 248, 241, 0.68); font-family: var(--sans) !important; font-size: 12px !important; line-height: 1.9 !important; }
+.epilogue-explanation { margin-top: 24px !important; padding-top: 22px; border-top: 1px solid var(--line); color: var(--ink-soft); font-family: var(--sans) !important; font-size: 12px !important; line-height: 1.9 !important; }
 
 .point-list { border-top: 1px solid var(--line-strong); }
 .point-item { display: grid; grid-template-columns: 80px minmax(220px, 0.65fr) minmax(0, 1.35fr); gap: 30px; padding: 31px 0; border-bottom: 1px solid var(--line); }
