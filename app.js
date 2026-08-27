@@ -11,8 +11,6 @@
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
   const state = {
-    query: '',
-    allSourcesOpen: false,
     currentArticle: 1,
     visibleArticles: data.articles,
   };
@@ -35,23 +33,6 @@
     result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     result = result.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
     return result;
-  }
-
-  function queryTokens() {
-    return state.query.normalize('NFKC').trim().split(/\s+/).filter(Boolean);
-  }
-
-  function highlightPlain(value) {
-    const escaped = escapeHtml(value);
-    const tokens = queryTokens();
-    if (!tokens.length) return escaped;
-    const pattern = tokens
-      .map((token) => escapeHtml(token).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-      .filter(Boolean)
-      .sort((a, b) => b.length - a.length)
-      .join('|');
-    if (!pattern) return escaped;
-    return escaped.replace(new RegExp(`(${pattern})`, 'giu'), '<mark>$1</mark>');
   }
 
   function renderMarkdownBlocks(value) {
@@ -104,78 +85,19 @@
       <div class="epilogue-translation">
         <h3>現代語意訳</h3>
         <p>${escapeHtml(data.epilogue.paraphrase)}</p>
-        <p class="epilogue-explanation">${escapeHtml(data.epilogue.explanation)}</p>
       </div>
     `;
 
-    $('#keyPointList').innerHTML = data.keyPoints.map((point) => `
-      <article class="point-item">
-        <span class="point-number">0${point.number}</span>
-        <h3>${escapeHtml(point.title)}</h3>
-        <p>${escapeHtml(point.text)}</p>
-      </article>
-    `).join('');
-
-    $('#powerIntro').textContent = data.powerIntro;
-    const highCount = data.powerRows.filter((row) => row.certainty === '高').length;
-    const mediumCount = data.powerRows.filter((row) => row.certainty === '中').length;
-    $('#powerSummary').innerHTML = `
-      <div class="power-stat"><span>一覧掲載</span><strong>${data.powerRows.length}条</strong></div>
-      <div class="power-stat"><span>確実度「高」</span><strong>${highCount}条</strong></div>
-      <div class="power-stat"><span>確実度「中」</span><strong>${mediumCount}条</strong></div>
-    `;
-    $('#powerTableBody').innerHTML = data.powerRows.map((row) => `
-      <tr>
-        <td><a href="#article-${row.article}">第${row.article}条</a></td>
-        <td>${escapeHtml(row.subject)}</td>
-        <td>${escapeHtml(row.restriction)}</td>
-        <td>${escapeHtml(row.relation)}</td>
-        <td><span class="certainty ${row.certainty === '高' ? 'certainty-high' : 'certainty-medium'}">${escapeHtml(row.certainty)}</span></td>
-      </tr>
-    `).join('');
-
-    $('#sourceIntro').innerHTML = renderInline(data.sourceIntro);
-    $('#sourceGroups').innerHTML = data.sourceGroups.map((group) => `
-      <section class="source-group">
-        <h3>${escapeHtml(group.title)}</h3>
-        <ul>${group.items.map((item) => `<li>${renderInline(item)}</li>`).join('')}</ul>
-      </section>
-    `).join('');
-  }
-
-  function articleHaystack(article) {
-    return [
-      article.number,
-      `第${article.number}条`,
-      article.theme,
-      article.original,
-      article.paraphrase,
-      article.explanation,
-    ].join('\n').normalize('NFKC').toLocaleLowerCase('ja');
-  }
-
-  function articleMatches(article) {
-    const tokens = queryTokens().map((token) => token.toLocaleLowerCase('ja'));
-    return !tokens.length || tokens.every((token) => articleHaystack(article).includes(token));
-  }
-
-  function hiddenFieldMatch(article) {
-    const tokens = queryTokens().map((token) => token.toLocaleLowerCase('ja'));
-    if (!tokens.length) return false;
-    const visible = `${article.number} ${article.theme} ${article.paraphrase}`.normalize('NFKC').toLocaleLowerCase('ja');
-    const hidden = `${article.original} ${article.explanation}`.normalize('NFKC').toLocaleLowerCase('ja');
-    return !tokens.every((token) => visible.includes(token)) && tokens.every((token) => `${visible} ${hidden}`.includes(token));
   }
 
   function articleCard(article) {
-    const open = state.allSourcesOpen || hiddenFieldMatch(article);
     return `
       <article class="article-card" id="article-${article.number}" data-article="${article.number}">
         <div class="article-main">
           <header class="article-header">
             <a class="article-number" href="#article-${article.number}">第${article.number}条</a>
             <div class="article-title">
-              <h3>${highlightPlain(article.theme)}</h3>
+              <h3>${escapeHtml(article.theme)}</h3>
             </div>
             <button class="copy-link" type="button" data-copy-article="${article.number}" aria-label="第${article.number}条へのリンクをコピー" title="この条文へのリンクをコピー">
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 15 15 9"></path><path d="M7.5 12.5 5 15a3 3 0 0 0 4.2 4.2l2.5-2.5"></path><path d="m12.3 7.3 2.5-2.5A3 3 0 1 1 19 9l-2.5 2.5"></path></svg>
@@ -183,19 +105,19 @@
           </header>
           <div class="paraphrase">
             <span class="content-label">現代語意訳</span>
-            <p>${highlightPlain(article.paraphrase)}</p>
+            <p>${escapeHtml(article.paraphrase)}</p>
           </div>
         </div>
-        <details class="article-details" ${open ? 'open' : ''}>
+        <details class="article-details">
           <summary>原文・解説を読む</summary>
           <div class="detail-content">
             <section class="original-block">
               <span class="content-label">原文</span>
-              <blockquote>${highlightPlain(article.original)}</blockquote>
+              <blockquote>${escapeHtml(article.original)}</blockquote>
             </section>
             <section class="explanation-block">
               <span class="content-label">解説</span>
-              <p>${highlightPlain(article.explanation)}</p>
+              <p>${escapeHtml(article.explanation)}</p>
             </section>
           </div>
         </details>
@@ -210,16 +132,10 @@
     `).join('');
   }
 
-  function updateControls() {
-    $('#toggleAllSources').textContent = state.allSourcesOpen ? '原文をすべて閉じる' : '原文をすべて表示';
-  }
-
   function updateResultsStatus() {
     const count = state.visibleArticles.length;
     $('#sidebarResultCount').textContent = String(count);
-    let message = `全${count}条を表示しています`;
-    if (state.query) message = `「${state.query}」の検索結果：${count}条`;
-    $('#resultsStatus').textContent = message;
+    $('#resultsStatus').textContent = `全${count}条を表示しています`;
   }
 
   function observeCards() {
@@ -241,23 +157,15 @@
 
   function renderArticles({ preserveScroll = true } = {}) {
     const previousTop = preserveScroll ? $('#articles').getBoundingClientRect().top : 0;
-    state.visibleArticles = data.articles.filter(articleMatches);
+    state.visibleArticles = data.articles;
     $('#articleList').innerHTML = state.visibleArticles.map(articleCard).join('');
-    $('#emptyState').hidden = state.visibleArticles.length !== 0;
     renderNumberGrid();
-    updateControls();
     updateResultsStatus();
     observeCards();
     if (preserveScroll && previousTop < 0) {
       const nextTop = $('#articles').getBoundingClientRect().top;
       window.scrollBy({ top: nextTop - previousTop, behavior: 'auto' });
     }
-  }
-
-  function resetFilters() {
-    state.query = '';
-    $('#articleSearch').value = '';
-    renderArticles();
   }
 
   function showToast(message) {
@@ -302,31 +210,9 @@
   }
 
   function bindEvents() {
-    let searchTimer;
-    $('#articleSearch').addEventListener('input', (event) => {
-      window.clearTimeout(searchTimer);
-      searchTimer = window.setTimeout(() => {
-        state.query = event.target.value.trim();
-        renderArticles();
-      }, 120);
-    });
-
-    $('#emptyReset').addEventListener('click', resetFilters);
-
-    $('#toggleAllSources').addEventListener('click', () => {
-      state.allSourcesOpen = !state.allSourcesOpen;
-      $$('.article-details').forEach((details) => { details.open = state.allSourcesOpen; });
-      updateControls();
-    });
-
     $('#articleList').addEventListener('click', (event) => {
       const copyButton = event.target.closest('[data-copy-article]');
       if (copyButton) copyArticleLink(copyButton.dataset.copyArticle);
-    });
-
-    $('#searchShortcut').addEventListener('click', () => {
-      $('#articles').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(() => $('#articleSearch').focus(), 450);
     });
 
     $('#themeToggle').addEventListener('click', () => {
@@ -343,19 +229,6 @@
       $('#backToTop').classList.toggle('is-visible', window.scrollY > 700);
     }, { passive: true });
 
-    document.addEventListener('keydown', (event) => {
-      const tag = event.target.tagName;
-      const typing = tag === 'INPUT' || tag === 'TEXTAREA' || event.target.isContentEditable;
-      if (event.key === '/' && !typing) {
-        event.preventDefault();
-        $('#articles').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        window.setTimeout(() => $('#articleSearch').focus(), 350);
-      }
-      if (event.key === 'Escape' && document.activeElement === $('#articleSearch')) {
-        resetFilters();
-        $('#articleSearch').blur();
-      }
-    });
   }
 
   function openHashTarget() {

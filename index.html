@@ -25,14 +25,8 @@
       </a>
       <nav class="global-nav" aria-label="主要ナビゲーション">
         <a href="#articles">全67条</a>
-        <a href="#points">全体の要点</a>
-        <a href="#power">当主権制限</a>
-        <a href="#sources">史料・文献</a>
       </nav>
       <div class="header-actions">
-        <button class="icon-button" id="searchShortcut" type="button" aria-label="条文を検索" title="検索（/）">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
-        </button>
         <button class="icon-button" id="themeToggle" type="button" aria-label="ダークモードに切り替える" title="表示テーマを切り替える">
           <svg class="theme-icon theme-icon-sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
           <svg class="theme-icon theme-icon-moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20 15.2A8.4 8.4 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z"></path></svg>
@@ -46,25 +40,12 @@
           <h1 id="articlesTitle">六角氏式目 67か条</h1>
         </div>
 
-        <div class="search-panel" id="searchPanel">
-          <div class="search-row">
-            <label class="search-box" for="articleSearch">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
-              <span class="sr-only">条文を検索</span>
-              <input id="articleSearch" type="search" autocomplete="off" placeholder="語句・主題・条文番号で検索（例：年貢、御判、37）">
-              <kbd>/</kbd>
-            </label>
-            <button class="button button-small" id="toggleAllSources" type="button">原文をすべて表示</button>
-          </div>
-        </div>
-
         <div class="article-layout">
           <aside class="article-sidebar" aria-label="条文番号一覧">
             <div class="sidebar-sticky">
               <div class="sidebar-heading"><span>条文目次</span><strong id="sidebarResultCount">67</strong></div>
               <nav class="number-grid" id="articleNumberGrid" aria-label="各条文へ移動"></nav>
               <div class="sidebar-legend">
-                <span><i class="dot dot-visible"></i>表示中</span>
                 <span><i class="dot dot-active"></i>閲覧位置</span>
               </div>
             </div>
@@ -75,71 +56,28 @@
               <p>原文は校訂電子本文に基づく正規化表記です</p>
             </div>
             <div class="article-list" id="articleList"></div>
-            <div class="empty-state" id="emptyState" hidden>
-              <div aria-hidden="true">該当なし</div>
-              <h3>条件に合う条文がありません</h3>
-              <p>検索語を変えてお試しください。</p>
-              <button class="button button-primary" type="button" id="emptyReset">すべて表示</button>
-            </div>
           </div>
         </div>
       </section>
 
       <section class="section epilogue-section" id="epilogue" aria-labelledby="epilogueTitle">
-        <div class="epilogue-mark" aria-hidden="true">結</div>
         <div class="section-heading section-heading-light">
-          <p class="section-kicker">POSTSCRIPT</p>
           <h2 id="epilogueTitle">奥書</h2>
         </div>
         <div class="epilogue-content" id="epilogueContent"></div>
       </section>
 
-      <section class="section points-section" id="points" aria-labelledby="pointsTitle">
-        <div class="section-heading">
-          <p class="section-kicker">EIGHT PERSPECTIVES</p>
-          <h2 id="pointsTitle">六角氏式目全体の要点</h2>
-          <p>67条を通して見えてくる、八つの論点。</p>
-        </div>
-        <div class="point-list" id="keyPointList"></div>
-      </section>
-
-      <section class="section power-section" id="power" aria-labelledby="powerTitle">
-        <div class="section-heading">
-          <p class="section-kicker">RESTRAINT ON AUTHORITY</p>
-          <h2 id="powerTitle">当主権制限に関係する条文</h2>
-          <p id="powerIntro"></p>
-        </div>
-        <div class="power-summary" id="powerSummary"></div>
-        <div class="table-wrap" tabindex="0" aria-label="当主権制限に関係する条文の表。横にスクロールできます。">
-          <table>
-            <thead><tr><th>条文</th><th>制限される主体</th><th>制限の内容</th><th>当主権制限との関係</th><th>確実度</th></tr></thead>
-            <tbody id="powerTableBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section sources-section" id="sources" aria-labelledby="sourcesTitle">
-        <div class="section-heading section-heading-light">
-          <p class="section-kicker">SOURCES &amp; NOTES</p>
-          <h2 id="sourcesTitle">史料・参考文献</h2>
-          <p id="sourceIntro"></p>
-        </div>
-        <div class="source-groups" id="sourceGroups"></div>
-      </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-brand">
         <span class="brand-mark" aria-hidden="true"><span>六</span></span>
-        <div><strong>六角氏式目67か条</strong><p>原文から独自に作成した現代語意訳</p></div>
+        <div><strong>六角氏式目67か条</strong><p>各条の本文と現代語意訳</p></div>
       </div>
       <nav aria-label="フッターナビゲーション">
         <a href="#articles">ページ上部</a>
         <a href="#articles">全67条</a>
-        <a href="#sources">参考文献</a>
-        <a href="output/六角氏式目_67か条_現代語意訳.md">Markdown版</a>
       </nav>
-      <p class="footer-note">底本：東京大学史料編纂所「古文書フルテキストデータベース」収録校訂本文</p>
     </footer>
 
     <button class="back-to-top" id="backToTop" type="button" aria-label="ページ上部へ戻る">
